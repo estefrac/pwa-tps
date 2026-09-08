@@ -12,9 +12,16 @@
   </head>
   <body>
     <div id="app" class="container mt-3">
-      <p>
+      <p class="fs-4">
         Hola, mi nombre es {{nombre}}, tengo {{edad}} años y vivo en {{ciudad}}.
       </p>
+      <p class="fs-1 fw-bold">{{contador}}</p>
+      <button class="btn btn-primary" v-on:click="incrementar">
+        Incrementar
+      </button>
+      <button class="btn btn-primary" v-on:click="decrementar">
+        Decrementar
+      </button>
     </div>
     <script>
       var app = new Vue({
@@ -23,8 +30,19 @@
           nombre: "Ana García",
           edad: 30,
           ciudad: "Tupungato",
+          contador: 0,
         },
-        methods: {},
+        methods: {
+          incrementar() {
+            this.contador++;
+          },
+          decrementar() {
+            this.contador--;
+            if (this.contador < 0) {
+              this.contador = 0;
+            }
+          },
+        },
         computed: {},
       });
     </script>
