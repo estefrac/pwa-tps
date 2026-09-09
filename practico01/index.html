@@ -22,6 +22,39 @@
       <button class="btn btn-primary" v-on:click="decrementar">
         Decrementar
       </button>
+      <div class="mt-5 w-75">
+        <div class="mb-3 d-flex gap-2">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Ingresar Tarea"
+            v-model="nuevaTarea"
+          />
+          <button class="btn btn-primary text-nowrap" v-on:click="agregarTarea">
+            Añadir Tarea
+          </button>
+        </div>
+        <div class="d-flex gap-3">
+          <p>Tareas pendientes: {{tareasPendientes}}</p>
+          <p>Total de tareas: {{totalTareas}}</p>
+        </div>
+        <ul class="list-group">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+            v-for="tarea in tareas"
+            v-bind:key="tarea.id"
+          >
+            {{tarea.id}} - {{tarea.texto}}
+            <span>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                v-model="tarea.completada"
+              />
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
     <script>
       var app = new Vue({
@@ -31,6 +64,12 @@
           edad: 30,
           ciudad: "Tupungato",
           contador: 0,
+          nuevaTarea: "",
+          tareas: [
+            { id: 1, texto: "Aprender Vue JS", completada: false },
+            { id: 2, texto: "Aprender Django", completada: false },
+            { id: 3, texto: "Aprender SQL", completada: false },
+          ],
         },
         methods: {
           incrementar() {
@@ -42,8 +81,29 @@
               this.contador = 0;
             }
           },
+          agregarTarea() {
+            this.tareas.push({
+              id: this.tareas.length + 1,
+              texto: this.nuevaTarea,
+              completada: false,
+            });
+            this.nuevaTarea = "";
+          },
         },
-        computed: {},
+        computed: {
+          tareasPendientes() {
+            let count = 0;
+            for (const tarea of this.tareas) {
+              if (tarea.completada === false) {
+                count++;
+              }
+            }
+            return count;
+          },
+          totalTareas(){
+            return this.tareas.length;
+          },
+        },
       });
     </script>
   </body>
