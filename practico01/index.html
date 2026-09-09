@@ -54,6 +54,16 @@
             </span>
           </li>
         </ul>
+        <p class="fs-4 mt-3">Eventos del Ciclo de Vida de Vue JS</p>
+        <ul class="list-group mt-3">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+            v-for="evento in listaeventos"
+            v-bind:key="evento.id"
+          >
+            {{ evento.nombre }} - {{ evento.timestamp }}
+          </li>
+        </ul>
       </div>
     </div>
     <script>
@@ -70,6 +80,7 @@
             { id: 2, texto: "Aprender Django", completada: false },
             { id: 3, texto: "Aprender SQL", completada: false },
           ],
+          listaeventos: [],
         },
         methods: {
           incrementar() {
@@ -100,9 +111,49 @@
             }
             return count;
           },
-          totalTareas(){
+          totalTareas() {
             return this.tareas.length;
           },
+        },
+        beforeCreate() {
+          console.log("beforeCreate", Date.now());
+        },
+        created() {
+          this.listaeventos.push({
+            id: this.listaeventos.length + 1,
+            nombre: "created",
+            timestamp: Date.now(),
+          });
+        },
+        beforeMount() {
+          this.listaeventos.push({
+            id: this.listaeventos.length + 1,
+            nombre: "beforeMount",
+            timestamp: Date.now(),
+          });
+        },
+        mounted() {
+          this.listaeventos.push({
+            id: this.listaeventos.length + 1,
+            nombre: "mounted",
+            timestamp: Date.now(),
+          });
+        },
+        beforeUpdate() {
+          console.log("beforeUpdate", Date.now());
+        },
+        updated() {
+          console.log("updated", Date.now());
+        },
+        beforeDestroy() {
+          this.listaeventos.push({
+            id: this.listaeventos.length + 1,
+            nombre: "beforeDestroy",
+            timestamp: Date.now(),
+          });
+        },
+        destroyed() {
+          console.log("destroyed", Date.now());
         },
       });
     </script>
