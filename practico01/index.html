@@ -65,6 +65,28 @@
             {{ evento.nombre }} - {{ evento.timestamp }}
           </li>
         </ul>
+        <p class="fs-4 mt-3">Publicaciones</p>
+        <ul class="list-group mt-3 mb-3">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+            v-for="post in posts"
+            v-bind:key="post.id"
+            v-on:click="obtenerComments(post.id)"
+            style="cursor: pointer"
+          >
+            {{ post.title }}
+          </li>
+        </ul>
+        <p class="fs-4 mt-3">Comentarios</p>
+        <ul class="list-group mt-3 mb-3">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+            v-for="comentario in comentarios"
+            v-bind:key="comentario.id"
+          >
+            {{ comentario.body }}
+          </li>
+        </ul>
       </div>
     </div>
     <script>
@@ -82,6 +104,8 @@
             { id: 3, texto: "Aprender SQL", completada: false },
           ],
           listaeventos: [],
+          posts: [],
+          comentarios: [],
         },
         methods: {
           incrementar() {
@@ -112,11 +136,13 @@
               });
           },
           obtenerComments(postId) {
+            let that = this;
             return axios
               .get(
                 `https://jsonplaceholder.typicode.com/posts/${postId}/comments`,
               )
               .then(function (response) {
+                that.comentarios = response.data;
                 return response.data;
               })
               .catch(function (error) {
@@ -161,6 +187,12 @@
             nombre: "mounted",
             timestamp: Date.now(),
           });
+
+          for (let i = 1; i <= 10; i++) {
+            this.obtenerPost(i).then((post) => {
+              this.posts.push(post);
+            });
+          }
         },
         beforeUpdate() {
           console.log("beforeUpdate", Date.now());
