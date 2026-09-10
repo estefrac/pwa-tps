@@ -9,6 +9,7 @@
     />
     <title>PWA - TP1</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <div id="app" class="container mt-3">
@@ -99,6 +100,28 @@
               completada: false,
             });
             this.nuevaTarea = "";
+          },
+          obtenerPost(postId) {
+            return axios
+              .get(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+              .then(function (response) {
+                return response.data;
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          },
+          obtenerComments(postId) {
+            return axios
+              .get(
+                `https://jsonplaceholder.typicode.com/posts/${postId}/comments`,
+              )
+              .then(function (response) {
+                return response.data;
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
           },
         },
         computed: {
