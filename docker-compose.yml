@@ -1,4 +1,21 @@
 services:
+  django:
+    image: pwa2026tp2:0.1
+    environment:
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    build:
+      context: ./config/django-image
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - "8000:8000"
+
   postgres:
     image: postgres:16
     environment:
